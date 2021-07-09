@@ -41,9 +41,11 @@ title: Home
   }
 </script>
 
-<section class="content" id="home" style="display:none;">
-  
+<section class="content" id="home" style="display:block;">
+  <!--
   <p>[ <a href="javascript:void(0)" onclick="document.getElementById('home').style.display='none';document.getElementById('blog').style.display='block';">Blog</a> ] &nbsp; &middot; &nbsp; <strong>[ About ]</strong> &nbsp; &middot; &nbsp; [ <a href="javascript:void(subscribe())">Subscribe</a> ]</p>
+-->
+  <p><strong>[ About ]</strong> &nbsp; &middot; &nbsp; [ <a href="javascript:void(subscribe())">Subscribe</a> ]</p>
 
   <p>
     My name is Emre (pronounced Am-Ray). I'm a self-taught technologist with 10+ years specialization in social web and decentralization.
@@ -176,13 +178,13 @@ qnY72+TWOFG8oyzaqxjk56+VdjFlYtSp8SQgu/MnLbQ=
 
 </section>
 
-<section class="content" id="blog" style="display:block;">
+<section class="content" id="blog" style="display:none;">
   <p><strong>[ Blog ]</strong> &nbsp; &middot; &nbsp; [ <a href="javascript:void(0)" onclick="document.getElementById('home').style.display='block';document.getElementById('blog').style.display='none';">About</a> ] &nbsp; &middot; &nbsp; [ <a href="javascript:void(subscribe())">Subscribe</a> ]</p>
-<!--
-  <graphjs-blog></graphjs-blog>
--->
 
-  <graphjs-blog box="disabled"></graphjs-blog> <!-- 5c0efec5dd66dbad458e8c473640bfd2 -->
+<!--
+  <graphjs-blog box="disabled"></graphjs-blog> 
+-->  
+  <!-- 5c0efec5dd66dbad458e8c473640bfd2 -->
 <!--  <p>This blog is brought to you by <a href="https://graphjs.com" target="_blank">🌈 GraphJS</a></p> -->
 <!--
   <graphjs-comments></graphjs-comments>
