@@ -1,127 +1,96 @@
----
-layout: default
-title: Home
----
-<header>
-  <img alt="{{ site.name }} picture" src="{{ site.picture }}" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <h1>
-    <strong><a href="./">{{ site.name }}</a></strong>
-  </h1>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Emre Sokullu</title>
+    <style>
+        .section {
+            padding: 1em; 
+            color: #000;
+        }
+        .right-block {
+            background-image: url('emresokullu2.jpg'); 
+            background-size: cover;
+            opacity: 0.7;
+        }
+        .right-column {
+            z-index: 1; 
+            position: absolute; 
+            opacity: 1; 
+            filter: none; 
+            text-align: right; 
+            width: 100%; 
+            padding-right: 2em; 
+            color: #f2f2f2;
+        }
 
-  <p>
-    Founder of Grou.ps Inc.</br>
-    Social, Graph Theory, AI</br>
-    for the last 10+ years.<br>
-    ❤ Defne, my daughter.
-  </p>
+    
+        #burger-menu:focus + #navbarNav {
+            display: block;
+        }
 
-  <nav>
-    <ul>
-      <li><a href="https://twitter.com/{{ site.twitter }}">Twitter</a></li>
-      <li><a href="https://facebook.com/sokullu">Facebook</a></li>
-      <li><a href="https://linkedin.com/in/EmreSokullu">LinkedIn</a></li>
-      <li><a href="https://github.com/{{ site.github }}">Github</a></li>
-      <li><a href="https://medium.com/@emresokullu">Medium</a></li>
-      <li><a href="https://www.youtube.com/user/esokullu">Youtube</a></li>
-      <li><a href="https://www.instagram.com/esokullu/">Instagram</a></li>
-      <li><a href="https://snapchat.com/add/esokullu">Snap</a></li>
-      <li><a href="https://www.kiva.org/lender/emresokullu">Kiva</a></li>
-      <li><a href="https://angel.co/sokullu">Angel.co</a></li>
-      <li><a href="https://www.coursera.org/account/accomplishments/verify/YRTCRBF8WTJJ">Coursera</a></li>
-    </ul>
-  </nav>
-
-  <small>
-    Tested on Chrome and Firefox.
-    Based on <a href="https://github.com/sergiokopplin/violet">Violet</a> theme.
-  </small>
-</header>
-
-<section class="content">
-  <p>Not to anyone's surprise, the dude you see in the left-hand side, is me. And it's my only photo with
-    a bow tie, because it was the only time I ever wore one.
-  </p>
-  <p>
-    My name is Emre (pronounced Am-Ray) and I'm the founder and CEO of <a href="http://grou.ps">Grou.ps</a> which is one of the first, if not first, **private** social networking platforms. I've started it in late 2005.
-  </p>
-
-  <p>
-    Grou.ps is today part of <a href="http://www.groups-inc.com">Grou.ps Inc</a>, a small profitable social networking company located in Silicon Valley and Istanbul.
-  </p>
-
-  <p>
-    Grou.ps, at its peak as a free service, boasted 8 million monthly unique visitors (accordingly to Google Analytics) at a time when Facebook had 250 million monthly actives (2010 baby). Today it serves a smaller audience, though all from paying customers, including some marquee names worldwide.
-  </p>
-
-  <p>Since then, we've been working hard toying with new ideas and amassing a portfolio of intellectual property via  patent applications, while building up the business in new categories. Owen Thomas, of ReadWrite, <a href="http://readwrite.com/2015/08/27/grou-ps-gymgroups-social-fitness/">sums up</a> this period and our ongoing efforts as follows (edited for brevity):
-  </p>
-
-
-<div>
-<blockquote>
-
-<p> [...] It’s been a long time since ReadWrite caught up with Grou.ps founder and CEO Emre Sokullu [...] In 2008, his startup raised financing and launched its social groupware product, which at its peak had 8 million monthly unique users and 100 million monthly pageviews.
-</p>
-<p>
-The Great Recession hit, and Sokullu turned Grou.ps into a paid service in an effort to generate revenues. That worked—the company turned profitable in 2012—but at the cost of torpedoing Grou.ps’s growth.
-</p>
-<p>
-What Sokullu found was that about half of the remaining active communities on Grou.ps were fitness-related, like Ohio’s Columbus Running Club. [...] That inspired GymGroups. [...]
-</p>
-</blockquote>
-</div>
-
-
-<p>The Grou.ps story is still developing...</p>
-
-  <p>
-    Prior to Grou.ps I worked at hakia, an AI startup (before it was cool) which was my first step to a work visa in the US. hakia's semantic search technology was a predecessor to Google's -what we call today- Knowledge Graph. I joined hakia after a short internship stint at <a href="https://wordnet.princeton.edu/">Princeton University Wordnet Project</a> which was also my first time in the US.
-  </p>
-
-<p>
-    <strong>College Days</strong></br>
-    During college (<a href="http://www.boun.edu.tr">Bogazici University</a>) from 2001 to 2005, I worked on several projects, but firstly and largely <a href="https://github.com/esokullu/Dilmaca">Dilmaca</a>, which was a personal hobby project of mine, that later on got support from Bogazici CMPE professors as well. Dilmaca, now open source, was a web-scale machine translation software that did a decent job for a mechanical approach. Although the challenges were academic (it took 10 years for convolutional neural networks to arrive), and I was in a position where I needed to earn money -now-. Having realized Dilmaca wouldn't monetize anytime soon in local market conditions, I stopped it  and moved on to something else, <a href="https://distrowatch.com/table.php?distribution=turkix">Turkix</a>, which paved the way to a small acquisition (at the age of 20!), hence some financial relief. (PS: I don't regret my time spent on Dilmaca, because it was then that I've started thinking about statistical methods, artificial intelligence and semantic graphs -- which later on helped me to get an internship at Princeton and a job at hakia.)
-  </p>
-
-  <p>
-As for Turkix, it was the the first Linux distribution that supported all Turkic languages. Eventually Datron, then the leading laptop producer in Turkey, approached us (now that I was part of a larger entity) to bundle it with their low-end models and replace Windows. As part of Turkix, I also led <a href="http://apache.org">Apache Software Foundation</a>'s Turkey operations, built a community of volunteers and hatched the first version of <a href="https://httpd.apache.org/docs/2.2/tr/programs/httpd.html">Turkish httpd documentation</a>. Last but not least, <a href="https://sourceforge.net/projects/simplekde/">SimpleKDE</a>, which was a desktop environment that came with Turkix gained <a href="https://linux.slashdot.org/story/05/07/18/115238/kdes-future-plasma-simplekde">so much traction</a> that I got invitation from KDE headquarters to join their <a href="https://techbase.kde.org/Contribute/Quality_Team">KDE Quality</a> team; a proud moment for a 20-years-old kid. SimpleKDE was only one of the many innovations that Turkix brought such as metc (meta etc).
-  </p>
-
-
-<p>
-    So this was a "quick" summary of my professional life in reverse chronological order. As my track record shows, my interest areas include social, social graph and AI.
-</p>
-
-
-<p>
-  <strong>Patents (w/ pending and provisionals)</strong></br>
-  <ul>
-    <li>* Measuring health and fitness data using proximity sensors and mobile technologies(<a href="https://www.google.com/patents/WO2016037012A1?cl=en">PCT/US2015/048437
-</a>)</li>
-    <li>* Using proximity sensors for receiving signals in a facility (<a href="https://www.google.com/patents/WO2016054290A1">PCT/US2015/053363</a>)</li>
-    <li>* Method and System for Statistically Determining what Social Network Context to Share a Particular Content With (USPTO #14325714)</li>
-    <li>* ... and tens of more in the fields of social networking, semantic search, cyber security</li>
-  </ul>
-
-</p>
-
-
-  <p>
-    <strong>Contact</strong></br>
-    You can reach me via the first letter of my first name followed by my last name, at, google's hosted email service. I don't promise that I am responsive but I try.
-  </p>
-
-  <p>
-    <strong>Favorite Stocks</strong></br>
-    $NVDA, $AMD, $GDDY, $BIDU, $DIS, $FB, $IBM
-  </p>
-<!--
-  <p>
-    <strong>Keywords (a.k.a. Tags)</strong></br>
-    caffe, tensorflow, cuda, php, hack, hacklang, c++, cpp, social, social graph, graph theory, linux, thrift, python, java, j2se, princeton, bogazici, galatasaray, hakia, armador, turkix, grou.ps, gymgroups, lovebucks, kontextful, dilmaca, machine translation, pattern recognition, opestack, openstack swift, aws, amazon s3, ai, svm, opencv.
-  </p>
--->
-
-
-</section>
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row" style="min-height: 100vh">
+        <div class="col-lg-6 col-md-6 col-sm-12 order-2 order-md-1" style="background-color: #f2f2f2;">
+            <div class="content section">
+                <h3>Books</h3>
+                The Grou.ps Story<br>
+                Faith Tribes <span class="badge badge-primary">coming soon</span><br>
+            </div>
+            <div class="content section">
+                <h3>Projects</h3>
+                <a href="https://mastorocks.com">MastoRocks</a><br>
+                <a href="https://phonetworks.org">Pho Networks</a><br>
+                <a href="https://komisyon0.com">Komisyon0</a><br>
+                <a href="https://mastoturk.org">MastoTurk</a><br>
+                <a href="https://Wikipediaturk.org">Wikipediaturk</a><br>
+                </div>
+                <div class="content section">
+                <h3>Exits</h3>
+                Grou.ps<br>
+                Research in Social Graph (GraphJS and Groupsville)<br>
+            </div>
+            <div class="content section">
+                <h3>Investments</h3>
+                <span data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Automattic</span><br>
+                H2O.ai<br>
+                Bitcoin<br>
+                Others...<br>
+                [ <a href="mailto:esokullu@gmail.com">apply for funding</a> ]
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 order-1 order-md-2 right-block">
+            <div class="content right-column">
+                
+                <h3 style="padding:20px 0 0 0;">
+                    Emre "Barack" Sokullu
+                </h3>
+                
+                    <p id="personal-card" class="d-none d-md-block">
+                        <a href="https://onmasto.com/@esokullu" class="text-white">@esokullu@onmasto.com</a> 🇺🇸 <br/>
+                        <a href="https://mastoturk.org/@esokullu" class="text-white">@esokullu@mastoturk.org</a> 🇹🇷 <br/>
+                        <!--https://esokullu.wordpress.com ✍️-->
+                    </p>
+            </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+          $('[data-toggle="popover"]').popover({
+            trigger: 'hover focus'
+          })
+        })
+    </script>
+  </body>
+</html>
