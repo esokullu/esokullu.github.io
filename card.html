@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <title>Emre Sokullu</title>
     <style>
@@ -20,17 +19,32 @@
         }
         .right-column {
             z-index: 1; 
-            position: absolute; 
+            /*position: absolute; */
             opacity: 0.8; 
             filter: none; 
             text-align: right; 
             width: 100%; 
-            padding-right: 2em; 
+            padding-right: 1em; 
+            padding-bottom: 0.5em;
             color: #f2f2f2;
           background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
         }
 
-    
+        /* Mobile Styles */
+        @media (max-width: 767px) {
+          .right-block {
+            background-attachment: fixed;
+            min-height: 300px; /* Adjust as needed */
+          }
+            .right-column {
+                text-align: center; 
+              background: rgba(0, 0, 0, 0.8); /* Background color for better readability on mobile */
+            }
+          #personal-card {
+            padding-bottom: 2em;
+          }
+        }
+
         #burger-menu:focus + #navbarNav {
             display: block;
         }
@@ -43,15 +57,11 @@
         <div class="col-lg-6 col-md-6 col-sm-12 order-2 order-md-1" style="background-color: #f2f2f2;">
             <div class="content section">
                 <h3>Books</h3>
-                <a href="https://www.dr.com.tr/kitap/groups-hikayesi-turkiyeden-amerikaya-uzanan-bir-girisimcilik-oykusu/egitim-basvuru/is-ekonomi-hukuk/ekonomi/urunno=0002064124001">Grou.ps Hikayesi [TR]</a> <!--<a href="https://raw.githubusercontent.com/esokullu/esokullu.github.io/gh-pages/EMRE%20SOKULLU%20GROU.PS%20HI%CC%87KA%CC%82YESI%CC%87%20(1)%20(4).pdf"><img src="/downloads.png" style="width:16px;height:16px;" /></a>--><br>
-                <a href="https://www.amazon.com/Istanbul-Silicon-Valley-Grou-ps-Story-ebook/dp/B0CDST3F1P">The Grou.ps Story [EN]</a> <!--<a href="https://raw.githubusercontent.com/esokullu/esokullu.github.io/gh-pages/English%20Groups%20Story%20%20(1).pdf"><img src="/downloads.png" style="width:16px;height:16px;" /></a>--><br>
-                <!-- Faith Tribes <span class="badge badge-primary">coming soon</span><br> -->
-            </div>
+                <a href="https://www.dr.com.tr/kitap/groups-hikayesi-turkiyeden-amerikaya-uzanan-bir-girisimcilik-oykusu/egitim-basvuru/is-ekonomi-hukuk/ekonomi/urunno=0002064124001">Grou.ps Hikayesi [TR]</a> <br>
+                <a href="https://www.amazon.com/Istanbul-Silicon-Valley-Grou-ps-Story-ebook/dp/B0CDST3F1P">The Grou.ps Story [EN]</a> <br>
+                </div>
             <div class="content section">
                 <h3>Projects</h3>
-              <!--
-                <a href="https://replacefaq.com" class="p-org">ReplaceFAQ</a><br>
-              -->
               <a href="https://securebtcwallet.com" class="p-org">SecureBtcWallet</a><br>
                 <a href="https://mastoturk.org">MastoTurk</a> <span class="badge badge-success">non-profit</span><br>
                 <a href="https://phonetworks.com">Phở Networks</a> <span class="badge badge-success">non-profit</span> <span class="badge badge-warning">dormant</span><br>
@@ -77,24 +87,23 @@
 
           <div class="content section">
                 <h3>Associations</h3>
-                <a data-container="body" data-toggle="popover" data-placement="top" data-content="Galatasaray SK Congressmember" href="https://www.galatasaray.org/" target="_blank"><img src="galatasaray.png" style="width:60px; height: 80px;"></a> <a data-container="body" data-toggle="popover" data-placement="top" data-content="Bogazici University" href="https://bogazici.edu.tr/" target="_blank"><img src="bogazici.png" style="width:80px; height: 80px;"></a> <!--<a data-container="body" data-toggle="popover" data-placement="top" data-content="Investor @ Automattic, makers of Wordpress" href="https://automattic.com/" target="_blank"><img src="automattic.png" style="width:220px; height: 80px;"></a> <a data-container="body" data-toggle="popover" data-placement="top" data-content="Investor @ H2O.ai" href="https://h2o.ai/" target="_blank"><img src="h2o.png" style="width:80px; height: 80px;"></a>-->
-            </div>
+                <a data-container="body" data-toggle="popover" data-placement="top" data-content="Galatasaray SK Congressmember" href="https://www.galatasaray.org/" target="_blank"><img src="galatasaray.png" style="width:60px; height: 80px;"></a> <a data-container="body" data-toggle="popover" data-placement="top" data-content="Bogazici University" href="https://bogazici.edu.tr/" target="_blank"><img src="bogazici.png" style="width:80px; height: 80px;"></a> </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 order-1 order-md-2 right-block">
-            <div class="content right-column">
+        <div class="col-lg-6 col-md-6 col-sm-12 order-1 order-md-2 right-block" style="padding-right: 0; padding-left: 0;">
+          
+            <div class="content right-column" >
                 
                 <h3 style="padding:20px 0 0 0;" class="p-name">
                     Emre Sokullu
                 </h3>
                 
-                    <p id="personal-card" class="d-none d-md-block">
+                    <p id="personal-card">
                         <a href="https://mstdn.social/@esokullu" rel="me" class="text-white u-url">@esokullu@mstdn.social</a> 🇺🇸 <br/>
                         <a href="https://mastoturk.org/@esokullu" rel="me" class="text-white u-url">@esokullu@mastoturk.org</a> 🇹🇷 <br/>
                         <a href="https://emresokullu.blog" rel="me" class="text-white u-url">https://emresokullu.blog</a> ✏️ <br/>
                       <a href="https://github.com/esokullu" rel="me" class="text-white u-url">https://github.com/esokullu</a> 👨‍💻 <br/>
                         <a href="mailto:esokullu@gmail.com" class="text-white p-contact">esokullu@gmail.com</a> ✉️
-                        <!--https://esokullu.wordpress.com ✍️-->
-                    </p>
+                        </p>
             </div>
         </div>
       </div>
