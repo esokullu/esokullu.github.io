@@ -134,6 +134,48 @@ function emrebot_append_email_locked(string $file, string $email): bool {
     return true;
 }
 
+function emrebot_resend_send_email(string $apiKey, string $from, string $to, string $subject, string $text, string $html): array {
+    $ch = curl_init('https://api.resend.com/emails');
+    if ($ch === false) {
+        return ['ok' => false, 'status' => 0, 'body' => 'curl_init failed'];
+    }
+
+    $payload = [
+        'from' => $from,
+        'to' => [$to],
+        'subject' => $subject,
+        'text' => $text,
+        'html' => $html,
+    ];
+
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: Bearer ' . $apiKey,
+            'Content-Type: application/json',
+            'Accept: application/json',
+        ],
+        CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+        CURLOPT_TIMEOUT => 20,
+    ]);
+
+    $body = curl_exec($ch);
+    $err = curl_error($ch);
+    $status = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    curl_close($ch);
+
+    if ($body === false) {
+        return ['ok' => false, 'status' => $status, 'body' => $err ?: 'curl_exec failed'];
+    }
+
+    if ($status < 200 || $status >= 300) {
+        return ['ok' => false, 'status' => $status, 'body' => (string)$body];
+    }
+
+    return ['ok' => true, 'status' => $status, 'body' => (string)$body];
+}
+
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
     $token = trim((string)($_GET['token'] ?? ''));
     if ($token === '') {
@@ -208,19 +250,27 @@ if ($from === false || trim($from) === '') {
     $from = 'noreply@aaronswtech.com';
 }
 
-$subject = "Confirm your subscription";
-$bodyText = "Click to confirm your email and unlock the chat:\n\n{$confirmUrl}\n\nIf you did not request this, ignore this email.";
-
-$headers = "From: {$from}\r\n";
-$headers .= "Reply-To: {$from}\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-$sent = @mail($email, $subject, $bodyText, $headers);
-if (!$sent) {
+$resendKey = getenv('RESEND_API_KEY');
+if ($resendKey === false || trim($resendKey) === '') {
     $pending = emrebot_read_json_file($pendingFile);
     unset($pending[$token]);
     emrebot_write_json_file_locked($pendingFile, $pending);
-    emrebot_send_json(500, ['ok' => false, 'error' => 'Could not send confirmation email']);
+    emrebot_send_json(500, ['ok' => false, 'error' => 'Server not configured (missing RESEND_API_KEY)']);
+}
+
+$subject = "Confirm your subscription";
+$bodyText = "Click to confirm your email and unlock the chat:\n\n{$confirmUrl}\n\nIf you did not request this, ignore this email.";
+$bodyHtml = '<p>Click to confirm your email and unlock the chat:</p>' .
+    '<p><a href="' . htmlspecialchars($confirmUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">' .
+    htmlspecialchars($confirmUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</a></p>' .
+    '<p>If you did not request this, ignore this email.</p>';
+
+$sent = emrebot_resend_send_email(trim((string)$resendKey), (string)$from, $email, $subject, $bodyText, $bodyHtml);
+if (!$sent['ok']) {
+    $pending = emrebot_read_json_file($pendingFile);
+    unset($pending[$token]);
+    emrebot_write_json_file_locked($pendingFile, $pending);
+    emrebot_send_json(500, ['ok' => false, 'error' => 'Could not send confirmation email', 'details' => $sent['body']]);
 }
 
 emrebot_send_json(200, ['ok' => true, 'confirmation_sent' => true]);
