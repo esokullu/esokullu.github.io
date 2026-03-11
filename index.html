@@ -361,6 +361,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'emrebot_email';
+  const PENDING_KEY = 'emrebot_pending_message';
   // DOM refs
   const barForm     = document.getElementById('emrebot-bar-form');
   const barInput    = document.getElementById('emrebot-bar-input');
@@ -374,6 +375,10 @@
   let pendingMessage = '';
   // ── helpers ──
   function isSubscribed(){ return !!localStorage.getItem(STORAGE_KEY); }
+  function getQueryParam(name){
+    try{ return new URLSearchParams(window.location.search).get(name); }
+    catch(e){ return null; }
+  }
   function openOverlay(el){
     el.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -418,23 +423,28 @@
   // ── bot reply stub (replace with your real API call) ──
   async function botReply(userMsg){
     showTyping();
-    // *** REPLACE THIS with a real fetch() to your AI backend ***
-    // Example:
-    // const res = await fetch('/api/emrebot', {
-    //   method: 'POST',
-    //   headers: {'Content-Type':'application/json'},
-    //   body: JSON.stringify({ message: userMsg, email: localStorage.getItem(STORAGE_KEY) })
-    // });
-    // const data = await res.json();
-    // hideTyping();
-    // addBubble(data.reply, 'bot');
-    // For now, a placeholder delayed response:
-    await new Promise(r => setTimeout(r, 1200));
-    hideTyping();
-    addBubble(
-      'Thanks for your message! This is a placeholder — connect me to an AI backend to make emrebot come alive.',
-      'bot'
-    );
+    try{
+      const res = await fetch('https://aaronswtech.com/chat.php', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'omit',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          message: userMsg,
+          email: localStorage.getItem(STORAGE_KEY) || null
+        })
+      });
+      const data = await res.json().catch(() => ({}));
+      hideTyping();
+      if(!res.ok || !data || data.ok === false){
+        addBubble((data && data.error) ? data.error : 'Sorry — the AI backend returned an error.', 'bot');
+        return;
+      }
+      addBubble(data.reply || 'Sorry — empty response from AI backend.', 'bot');
+    } catch(err){
+      hideTyping();
+      addBubble('Sorry — could not reach the AI backend.', 'bot');
+    }
   }
   // ── 1  BAR SUBMIT ──
   barForm.addEventListener('submit', function(e){
@@ -445,6 +455,7 @@
     if(isSubscribed()){
       openChat(pendingMessage);
     } else {
+      localStorage.setItem(PENDING_KEY, pendingMessage);
       openOverlay(emailOverlay);
       emailInput.focus();
     }
@@ -454,12 +465,34 @@
     e.preventDefault();
     const email = emailInput.value.trim();
     if(!email) return;
-    // *** REPLACE: send email to your newsletter provider (e.g. Mailchimp, Buttondown, etc.)
-    // fetch('/api/subscribe', { method:'POST', body: JSON.stringify({email}) });
-    localStorage.setItem(STORAGE_KEY, email);
-    closeOverlay(emailOverlay);
-    openChat(pendingMessage);
-    pendingMessage = '';
+    (async function(){
+      try{
+        const res = await fetch('https://aaronswtech.com/subscribe.php', {
+          method: 'POST',
+          mode: 'cors',
+          credentials: 'omit',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json().catch(() => ({}));
+        if(!res.ok || !data || data.ok === false){
+          alert((data && data.error) ? data.error : 'Subscription failed.');
+          return;
+        }
+        if(data.already_confirmed){
+          localStorage.setItem(STORAGE_KEY, email);
+          closeOverlay(emailOverlay);
+          openChat(localStorage.getItem(PENDING_KEY) || pendingMessage);
+          localStorage.removeItem(PENDING_KEY);
+          pendingMessage = '';
+          return;
+        }
+        alert('Check your email for a one-time confirmation link to unlock the chat.');
+        closeOverlay(emailOverlay);
+      } catch(err){
+        alert('Subscription failed (network error).');
+      }
+    })();
   });
   // ── 3  CHAT SUBMIT ──
   chatForm.addEventListener('submit', function(e){
@@ -489,6 +522,22 @@
       else if(!emailOverlay.hidden) closeOverlay(emailOverlay);
     }
   });
+
+  // ── MAGIC LINK RETURN ──
+  const confirmed = getQueryParam('emrebot_confirmed');
+  const confirmedEmail = getQueryParam('email');
+  if(confirmed === '1' && confirmedEmail){
+    localStorage.setItem(STORAGE_KEY, confirmedEmail);
+    const msg = localStorage.getItem(PENDING_KEY) || '';
+    localStorage.removeItem(PENDING_KEY);
+    const url = new URL(window.location.href);
+    url.searchParams.delete('emrebot_confirmed');
+    url.searchParams.delete('email');
+    window.history.replaceState({}, document.title, url.toString());
+    if(msg){
+      openChat(msg);
+    }
+  }
 })();
 </script>
 
