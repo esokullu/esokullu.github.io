@@ -49,6 +49,159 @@
         }
 
     </style>
+
+<style>
+/* ===== shared ===== */
+.emrebot-overlay{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center}
+.emrebot-overlay[hidden]{display:none!important}
+.emrebot-overlay-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.emrebot-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:26px;color:#888;cursor:pointer;line-height:1;z-index:1}
+.emrebot-close:hover{color:#333}
+/* ===== 1  BAR ===== */
+#emrebot-bar{
+  position:fixed;bottom:24px;right:24px;
+  width:calc(50% - 48px);z-index:1000;
+}
+#emrebot-bar-form{
+  display:flex;align-items:center;
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.25);border-radius:999px;
+  padding:6px 6px 6px 20px;
+  box-shadow:0 4px 20px rgba(0,0,0,.25);transition:box-shadow .2s;
+}
+#emrebot-bar-form:focus-within{
+  border-color:rgba(255,255,255,.5);
+  box-shadow:0 4px 24px rgba(0,122,255,.3);
+}
+#emrebot-bar input{
+  flex:1;border:none;outline:none;background:transparent;
+  font-size:15px;color:#fff;font-family:inherit;padding:8px 0;min-width:0;
+}
+#emrebot-bar input::placeholder{color:rgba(255,255,255,.6)}
+#emrebot-bar button{
+  flex-shrink:0;width:38px;height:38px;border:none;border-radius:50%;
+  background:#007aff;color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:background .2s;
+}
+#emrebot-bar button:hover{background:#005ecb}
+@media(max-width:767.98px){
+  #emrebot-bar{bottom:auto;top:12px;left:12px;right:12px;width:auto}
+  #emrebot-bar-form{
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-color:#d1d1d1;
+    padding:4px 4px 4px 16px;
+    box-shadow:0 4px 16px rgba(0,0,0,.10);
+  }
+  #emrebot-bar input{font-size:14px;color:#212529}
+  #emrebot-bar input::placeholder{color:#999}
+  #emrebot-bar button{width:34px;height:34px}
+}
+/* ===== 2  EMAIL MODAL ===== */
+.emrebot-email-modal{
+  position:relative;background:#fff;border-radius:16px;
+  padding:40px 32px 32px;max-width:400px;width:90%;
+  text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);
+  animation:emrebotSlideUp .3s ease;
+}
+.emrebot-email-icon{font-size:40px;margin-bottom:8px}
+.emrebot-email-modal h3{margin:0 0 6px;font-size:20px;font-weight:700;color:#212529}
+.emrebot-email-modal p{margin:0 0 20px;color:#666;font-size:14px;line-height:1.5}
+.emrebot-email-fine{font-size:12px!important;color:#aaa!important;margin-top:14px!important}
+#emrebot-email-form{display:flex;flex-direction:column;gap:10px}
+#emrebot-email-form input{
+  border:1px solid #ddd;border-radius:10px;padding:12px 16px;
+  font-size:15px;outline:none;font-family:inherit;
+}
+#emrebot-email-form input:focus{border-color:#007aff}
+#emrebot-email-form button{
+  border:none;border-radius:10px;padding:12px;
+  background:#007aff;color:#fff;font-size:15px;font-weight:600;
+  cursor:pointer;transition:background .2s;
+}
+#emrebot-email-form button:hover{background:#005ecb}
+/* ===== 3  CHAT LIGHTBOX (iMessage style) ===== */
+.emrebot-chat-lightbox{
+  position:relative;display:flex;flex-direction:column;
+  background:#fff;border-radius:16px;overflow:hidden;
+  width:520px;max-width:94vw;height:70vh;max-height:640px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  animation:emrebotSlideUp .3s ease;
+}
+/* header */
+.emrebot-chat-header{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 48px 14px 16px;
+  background:#f9f9f9;border-bottom:1px solid #e8e8e8;
+}
+.emrebot-chat-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,#007aff,#5856d6);
+  color:#fff;font-size:13px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.emrebot-chat-header-info strong{display:block;font-size:14px;color:#212529}
+.emrebot-chat-header-info span{font-size:11px;color:#999}
+/* messages area */
+.emrebot-messages{
+  flex:1;overflow-y:auto;padding:16px;
+  display:flex;flex-direction:column;gap:8px;
+  background:#fff;
+}
+/* bubbles */
+.emrebot-bubble{
+  max-width:78%;padding:10px 14px;font-size:14px;line-height:1.5;
+  border-radius:18px;word-wrap:break-word;
+  animation:emrebotFadeIn .25s ease;
+}
+.emrebot-bubble.bot{
+  align-self:flex-start;
+  background:#e9e9eb;color:#212529;
+  border-bottom-left-radius:4px;
+}
+.emrebot-bubble.user{
+  align-self:flex-end;
+  background:#007aff;color:#fff;
+  border-bottom-right-radius:4px;
+}
+.emrebot-bubble.bot.typing{
+  display:flex;gap:4px;align-items:center;padding:12px 18px;
+}
+.emrebot-bubble.bot.typing span{
+  width:7px;height:7px;border-radius:50%;background:#999;
+  animation:emrebotDot 1.4s infinite ease-in-out both;
+}
+.emrebot-bubble.bot.typing span:nth-child(2){animation-delay:.2s}
+.emrebot-bubble.bot.typing span:nth-child(3){animation-delay:.4s}
+/* input row */
+.emrebot-chat-input-row{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px;border-top:1px solid #e8e8e8;background:#f9f9f9;
+}
+.emrebot-chat-input-row input{
+  flex:1;border:1px solid #ddd;border-radius:20px;padding:10px 16px;
+  font-size:14px;outline:none;font-family:inherit;background:#fff;min-width:0;
+}
+.emrebot-chat-input-row input:focus{border-color:#007aff}
+.emrebot-chat-input-row button{
+  flex-shrink:0;width:36px;height:36px;border:none;border-radius:50%;
+  background:#007aff;color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:background .2s;
+}
+.emrebot-chat-input-row button:hover{background:#005ecb}
+/* animations */
+@keyframes emrebotSlideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes emrebotFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes emrebotDot{0%,80%,100%{transform:scale(0.4)}40%{transform:scale(1)}}
+/* mobile adjustments */
+@media(max-width:767.98px){
+  .emrebot-chat-lightbox{height:85vh;max-height:none;border-radius:12px}
+  .emrebot-email-modal{padding:32px 24px 24px}
+}
+</style>
+
+
   </head>
   <body class="h-card h-resume">
     <div class="container-fluid">
@@ -124,6 +277,75 @@
         <p class="x-dating">f</p>
         <p class="x-status">single</p>
     </div>
+
+
+
+    <!-- 1) FIXED CHAT INPUT BAR (always visible) -->
+<div id="emrebot-bar">
+  <form id="emrebot-bar-form" autocomplete="off">
+    <input type="text" id="emrebot-bar-input"
+           placeholder="Chat with @emrebot..." aria-label="Chat with emrebot" />
+    <button type="submit" aria-label="Send">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </form>
+</div>
+<!-- 2) EMAIL SIGNUP OVERLAY -->
+<div id="emrebot-email-overlay" class="emrebot-overlay" hidden>
+  <div class="emrebot-overlay-backdrop"></div>
+  <div class="emrebot-email-modal">
+    <button class="emrebot-close" aria-label="Close">&times;</button>
+    <div class="emrebot-email-icon">✉️</div>
+    <h3>Before we chat…</h3>
+    <p>Subscribe to Emre's newsletter to unlock the chatbot.</p>
+    <form id="emrebot-email-form" autocomplete="off">
+      <input type="email" id="emrebot-email-input"
+             placeholder="you@email.com" required aria-label="Email address" />
+      <button type="submit">Subscribe &amp; Chat</button>
+    </form>
+    <p class="emrebot-email-fine">No spam, ever. Unsubscribe anytime.</p>
+  </div>
+</div>
+<!-- 3) iMESSAGE-STYLE CHAT LIGHTBOX -->
+<div id="emrebot-chat-overlay" class="emrebot-overlay" hidden>
+  <div class="emrebot-overlay-backdrop"></div>
+  <div class="emrebot-chat-lightbox">
+    <!-- Title bar -->
+    <div class="emrebot-chat-header">
+      <div class="emrebot-chat-avatar">ES</div>
+      <div class="emrebot-chat-header-info">
+        <strong>emrebot</strong>
+        <span>AI assistant · powered by Emre's knowledge</span>
+      </div>
+      <button class="emrebot-close" aria-label="Close">&times;</button>
+    </div>
+    <!-- Messages -->
+    <div class="emrebot-messages" id="emrebot-messages">
+      <!-- bot greeting injected by JS -->
+    </div>
+    <!-- Input -->
+    <form id="emrebot-chat-form" class="emrebot-chat-input-row" autocomplete="off">
+      <input type="text" id="emrebot-chat-input"
+             placeholder="Type a message…" aria-label="Message" />
+      <button type="submit" aria-label="Send">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
@@ -134,5 +356,141 @@
           })
         })
     </script>
+
+
+<script>
+(function(){
+  const STORAGE_KEY = 'emrebot_email';
+  // DOM refs
+  const barForm     = document.getElementById('emrebot-bar-form');
+  const barInput    = document.getElementById('emrebot-bar-input');
+  const emailOverlay= document.getElementById('emrebot-email-overlay');
+  const emailForm   = document.getElementById('emrebot-email-form');
+  const emailInput  = document.getElementById('emrebot-email-input');
+  const chatOverlay = document.getElementById('emrebot-chat-overlay');
+  const chatForm    = document.getElementById('emrebot-chat-form');
+  const chatInput   = document.getElementById('emrebot-chat-input');
+  const messagesEl  = document.getElementById('emrebot-messages');
+  let pendingMessage = '';
+  // ── helpers ──
+  function isSubscribed(){ return !!localStorage.getItem(STORAGE_KEY); }
+  function openOverlay(el){
+    el.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeOverlay(el){
+    el.hidden = true;
+    if(!emailOverlay.hidden || !chatOverlay.hidden) return;
+    document.body.style.overflow = '';
+  }
+  function addBubble(text, who){
+    const div = document.createElement('div');
+    div.className = 'emrebot-bubble ' + who;
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+  function showTyping(){
+    const div = document.createElement('div');
+    div.className = 'emrebot-bubble bot typing';
+    div.id = 'emrebot-typing';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+  function hideTyping(){
+    const t = document.getElementById('emrebot-typing');
+    if(t) t.remove();
+  }
+  function openChat(initialMsg){
+    // reset messages
+    messagesEl.innerHTML = '';
+    addBubble('Hey there 👋 I\'m emrebot — ask me anything about Emre.', 'bot');
+    openOverlay(chatOverlay);
+    chatInput.focus();
+    // if user already typed something, send it
+    if(initialMsg){
+      addBubble(initialMsg, 'user');
+      botReply(initialMsg);
+    }
+  }
+  // ── bot reply stub (replace with your real API call) ──
+  async function botReply(userMsg){
+    showTyping();
+    // *** REPLACE THIS with a real fetch() to your AI backend ***
+    // Example:
+    // const res = await fetch('/api/emrebot', {
+    //   method: 'POST',
+    //   headers: {'Content-Type':'application/json'},
+    //   body: JSON.stringify({ message: userMsg, email: localStorage.getItem(STORAGE_KEY) })
+    // });
+    // const data = await res.json();
+    // hideTyping();
+    // addBubble(data.reply, 'bot');
+    // For now, a placeholder delayed response:
+    await new Promise(r => setTimeout(r, 1200));
+    hideTyping();
+    addBubble(
+      'Thanks for your message! This is a placeholder — connect me to an AI backend to make emrebot come alive.',
+      'bot'
+    );
+  }
+  // ── 1  BAR SUBMIT ──
+  barForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    pendingMessage = barInput.value.trim();
+    if(!pendingMessage) return;
+    barInput.value = '';
+    if(isSubscribed()){
+      openChat(pendingMessage);
+    } else {
+      openOverlay(emailOverlay);
+      emailInput.focus();
+    }
+  });
+  // ── 2  EMAIL SUBMIT ──
+  emailForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    if(!email) return;
+    // *** REPLACE: send email to your newsletter provider (e.g. Mailchimp, Buttondown, etc.)
+    // fetch('/api/subscribe', { method:'POST', body: JSON.stringify({email}) });
+    localStorage.setItem(STORAGE_KEY, email);
+    closeOverlay(emailOverlay);
+    openChat(pendingMessage);
+    pendingMessage = '';
+  });
+  // ── 3  CHAT SUBMIT ──
+  chatForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const msg = chatInput.value.trim();
+    if(!msg) return;
+    chatInput.value = '';
+    addBubble(msg, 'user');
+    botReply(msg);
+  });
+  // ── CLOSE BUTTONS ──
+  document.querySelectorAll('.emrebot-close').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      closeOverlay(this.closest('.emrebot-overlay'));
+    });
+  });
+  // close on backdrop click
+  document.querySelectorAll('.emrebot-overlay-backdrop').forEach(function(bd){
+    bd.addEventListener('click', function(){
+      closeOverlay(this.closest('.emrebot-overlay'));
+    });
+  });
+  // ESC to close
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      if(!chatOverlay.hidden) closeOverlay(chatOverlay);
+      else if(!emailOverlay.hidden) closeOverlay(emailOverlay);
+    }
+  });
+})();
+</script>
+
   </body>
 </html>
