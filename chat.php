@@ -328,4 +328,6 @@ if ($reply === '') {
     emrebot_send_json(502, ['ok' => false, 'error' => 'Empty reply from model']);
 }
 
+@include_once __DIR__ . DIRECTORY_SEPARATOR . 'chat_log.php'; function_exists('emrebot_chat_log') && @emrebot_chat_log($email, $message, $reply);
+
 emrebot_send_json(200, ['ok' => true, 'reply' => $reply]);
