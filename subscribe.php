@@ -247,7 +247,7 @@ if (!emrebot_write_json_file_locked($pendingFile, $pending)) {
 $confirmUrl = 'https://aaronswtech.com/subscribe.php?token=' . rawurlencode($token);
 $from = getenv('EMREBOT_FROM');
 if ($from === false || trim($from) === '') {
-    $from = 'noreply@aaronswtech.com';
+    $from = 'notifications@mastoturk.org';
 }
 
 $resendKey = getenv('RESEND_API_KEY');

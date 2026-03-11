@@ -237,6 +237,12 @@ if (!is_array($body)) {
 $message = trim((string)($body['message'] ?? ''));
 $email = mb_strtolower(trim((string)($body['email'] ?? '')));
 
+$noThink = false;
+if (strncmp($message, '/nothink', 8) === 0) {
+    $noThink = true;
+    $message = trim((string)substr($message, 8));
+}
+
 if ($message === '') {
     emrebot_send_json(400, ['ok' => false, 'error' => 'Missing message']);
 }
@@ -269,7 +275,8 @@ if ($model === false || trim($model) === '') {
 $system = "You are Emre Sokullu, writing as me in first person. Be concise, direct, and practical. " .
     "When asked about my opinions, ground them in my published writing if provided. " .
     "If the question goes beyond my writing or you are unsure, say so and ask a clarifying question. " .
-    "Do not invent quotes or claim I wrote something unless it appears in the provided context.";
+    "Do not invent quotes or claim I wrote something unless it appears in the provided context. " .
+    "Do not output chain-of-thought. If you need to reason, do it silently and only output the final answer.";
 
 $blogDir = getenv('EMREBOT_BLOG_POSTS_DIR');
 if ($blogDir === false || trim($blogDir) === '') {
@@ -284,11 +291,17 @@ if ($blogContext !== '') {
     $messages[] = ['role' => 'system', 'content' => $blogContext];
 }
 $messages[] = ['role' => 'system', 'content' => "The user's verified email is: {$email}." ];
+
+if ($noThink) {
+    $messages[] = ['role' => 'system', 'content' => 'The user requested /nothink. Do not include any reasoning, analysis, or <think> tags. Output only the final answer.'];
+}
+
 $messages[] = ['role' => 'user', 'content' => $message];
 
 $payload = [
     'model' => $model,
     'messages' => $messages,
+    'extra_body' => ['reasoning_split' => true],
 ];
 
 $resp = emrebot_http_post_json($baseUrl . '/chat/completions', $payload, [
@@ -309,6 +322,7 @@ if (isset($decoded['choices'][0]['message']['content']) && is_string($decoded['c
     $reply = $decoded['choices'][0]['message']['content'];
 }
 
+$reply = preg_replace('/<think>[\s\S]*?<\/think>/u', '', $reply) ?? $reply;
 $reply = trim($reply);
 if ($reply === '') {
     emrebot_send_json(502, ['ok' => false, 'error' => 'Empty reply from model']);
