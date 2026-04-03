@@ -269,7 +269,7 @@ $baseUrl = rtrim($baseUrl, '/');
 
 $model = getenv('OPENROUTER_MODEL');
 if ($model === false || trim($model) === '') {
-    $model = 'google/gemma-4-31b-it';
+    $model = 'minimax/minimax-m2.5';
 }
 
 $system = "You are Emre Sokullu, writing as me in first person. Be concise, direct, and practical. " .
@@ -316,6 +316,7 @@ $messages[] = ['role' => 'user', 'content' => $message];
 $payload = [
     'model' => $model,
     'messages' => $messages,
+    'extra_body' => ['reasoning_split' => true]
 ];
 
 $resp = emrebot_http_post_json($baseUrl . '/chat/completions', $payload, [
