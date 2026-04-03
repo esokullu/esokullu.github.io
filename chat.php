@@ -256,20 +256,20 @@ if (!emrebot_email_exists_in_list($subscribersFile, $email)) {
     emrebot_send_json(401, ['ok' => false, 'error' => 'Email not verified']);
 }
 
-$apiKey = getenv('MINIMAX_API_KEY');
+$apiKey = getenv('OPENROUTER_API_KEY');
 if ($apiKey === false || trim($apiKey) === '') {
-    emrebot_send_json(500, ['ok' => false, 'error' => 'Server not configured (missing MINIMAX_API_KEY)']);
+    emrebot_send_json(500, ['ok' => false, 'error' => 'Server not configured (missing OPENROUTER_API_KEY)']);
 }
 
-$baseUrl = getenv('MINIMAX_BASE_URL');
+$baseUrl = getenv('OPENROUTER_BASE_URL');
 if ($baseUrl === false || trim($baseUrl) === '') {
-    $baseUrl = 'https://api.minimax.io/v1';
+    $baseUrl = 'https://openrouter.ai/api/v1';
 }
 $baseUrl = rtrim($baseUrl, '/');
 
-$model = getenv('MINIMAX_MODEL');
+$model = getenv('OPENROUTER_MODEL');
 if ($model === false || trim($model) === '') {
-    $model = 'MiniMax-M2.5';
+    $model = 'google/gemma-4-31b-it';
 }
 
 $system = "You are Emre Sokullu, writing as me in first person. Be concise, direct, and practical. " .
@@ -316,11 +316,12 @@ $messages[] = ['role' => 'user', 'content' => $message];
 $payload = [
     'model' => $model,
     'messages' => $messages,
-    'extra_body' => ['reasoning_split' => true],
 ];
 
 $resp = emrebot_http_post_json($baseUrl . '/chat/completions', $payload, [
     'Authorization: Bearer ' . trim($apiKey),
+        'HTTP-Referer: https://emresokullu.com',
+        'X-Title: EmreBot',
 ]);
 
 if (!$resp['ok']) {
