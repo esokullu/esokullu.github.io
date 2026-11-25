@@ -577,6 +577,25 @@
   }
 })();
 </script>
-
+<!-- WebBrain for websites -->
+<script src="https://sites.webbrain.one/embed.js" data-site-id="site_0b08694c" defer></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('emrebot-bar-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var input = document.getElementById('emrebot-bar-input');
+        var q = input ? input.value.trim() : '';
+        if (!q) return;
+        input.value = '';
+        if (window.WebBrain) {
+          WebBrain.ask(q);
+        }
+      }, true);
+    }
+  });
+</script>
   </body>
 </html>
